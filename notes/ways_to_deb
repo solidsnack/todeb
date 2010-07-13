@@ -1,0 +1,23 @@
+  deb:                                  Identity operation.
+
+  skeleton control file + deb:          Override fields in the deb with the
+                                        control file.
+
+  skeleton control file:                Control file in a deb that installs
+                                        listed dependencies. With `--static'
+                                        option, will obtain all debs.
+
+  skeleton control file + deb list:     Control file in a deb that installs
+                                        listed dependencies. The separate
+                                        file allows the `--static' flag to be
+                                        passed for individual debs.
+
+  gem:                                  Deb to install a gem with fields
+                                        derived from the gem.
+
+  skeleton control file + gem:          Deb to install that gem with fields
+                                        overridden by the control file.
+
+  skeleton control file + gem list:     Deb to install the listed gems.
+
+
