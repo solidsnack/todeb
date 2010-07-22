@@ -10,8 +10,8 @@ class Base16
               else             '%02x'
               end
     @width = (opts[:width] or 64)
-    @indent = case opts[:pad]
-              when Integer then ' ' * opts[:pad]
+    @indent = case opts[:indent]
+              when Integer then ' ' * opts[:indent]
               else              '  '
               end
   end

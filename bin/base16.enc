@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
+USAGE = <<USAGE
+ USAGE: base16.enc <options>* < the-file > the-file.base16
+
+  Converts STDIN to lower case base16.
+
+    --indent        How many spaces to use for padding (default of 2).
+    --width         How many hex characters per line (default of 64).
+    --lower         Use lower-case (the default).
+    --upper         Use upper-case.
+
+  The last option specification always takes precedence.
+
+USAGE
+
+require 'todeb/base16'
+
+$opts = {}
+
+case
+when [] != ARGV.select{|arg| /^-[h?]|--help$/.match(arg) }
+  STDOUT.puts USAGE
+  exit 0
+else
+  indent, width, lower, upper = %w| --indent --width
+                                    --lower --upper  |.map do |o|
+                                                         ARGV.rindex(o)
+                                                       end
+  $opts[:width] = case
+                  when width
+                    arg = ARGV[width + 1]
+                    m = /^[1-9][0-9]+$/.match(arg)
+                    abort "Width `--width #{arg}' is not positive." unless m
+                    arg.to_i
+                  else
+                    64
+                  end
+  $opts[:indent] = case
+                   when indent
+                     arg = ARGV[indent + 1]
+                     m = /^[0-9]+$/.match(arg)
+                     abort "Indent `--indent #{arg}' isn't a natural." unless m
+                     arg.to_i
+                   else
+                     2
+                   end
+  $opts[:case] = case
+                 when (lower and upper and lower < upper) then :upper
+                 when upper                               then :upper
+                 else                                          :lower
+                 end
+end
+
+STDIN.binmode # Might run on Windows, someday.
+ToDeb::Base16.new($opts).encode
+
+
+
+
+
+
