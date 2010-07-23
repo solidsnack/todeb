@@ -3,14 +3,14 @@ $LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
 USAGE = <<USAGE
  USAGE: base16.enc <options>* < the-file > the-file.base16
 
-  Converts STDIN to lower case base16.
+  Converts STDIN to base16.
 
     --indent        How many spaces to use for padding (default of 2).
     --width         How many hex characters per line (default of 64).
     --lower         Use lower-case (the default).
     --upper         Use upper-case.
 
-  The last option specification always takes precedence.
+  The last option specified always takes precedence.
 
 USAGE
 
