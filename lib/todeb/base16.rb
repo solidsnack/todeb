@@ -53,10 +53,10 @@ class Decoder
               "0123456789".index(b)
             when "abcdef".index(b)
               raise CaseError unless @lower
-              9 + "abcdef".index(b)
+              10 + "abcdef".index(b)
             when "ABCDEF".index(b)
               raise CaseError unless @upper
-              9 + "ABCDEF".index(b)
+              10 + "ABCDEF".index(b)
             when " \t\n".index(b)
               nil
             else
@@ -70,7 +70,8 @@ class Decoder
   end
 private
   def write_pair(pair)
-    @out.putc((pair[0] * 16) + pair[1])
+    value = (pair[0] * 16) + pair[1]
+    @out.putc(value)
     pair.clear
   end
 end
