@@ -40,7 +40,7 @@ class Decoder
     @out = (opts[:out] or STDOUT)
     case opts[:case]
     when :upper then @lower, @upper = [false, true]
-    when :any   then @lower, @upper = [true, true]
+    when :both  then @lower, @upper = [true, true]
     when :lower then @lower, @upper = [true, false]
     else             @lower, @upper = [true, false]
     end
@@ -48,8 +48,8 @@ class Decoder
   def call
     pair = []
     @in.each_byte do |b|
-      case
-      val = when "0123456789".index(b)
+      val = case
+            when "0123456789".index(b)
               "0123456789".index(b)
             when "abcdef".index(b)
               raise CaseError unless @lower
@@ -66,7 +66,7 @@ class Decoder
       write_pair(pair) if 2 == pair.length
     end
     raise ContentTooShort unless 0 == pair.length or 2 == pair.length
-    write_pair(pair)
+    write_pair(pair) unless 0 == pair.length
   end
 private
   def write_pair(pair)

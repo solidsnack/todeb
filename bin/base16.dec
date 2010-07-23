@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
+USAGE = <<USAGE
+ USAGE: base16.dec <options>* < the-file.base16 > the-file
+
+  Converts STDIN from base16.
+
+    --lower         Use only lower-case (the default).
+    --upper         Use only upper-case.
+    --both          Use both upper-case and lower-case.
+
+  The last option specified always takes precedence.
+
+USAGE
+
+require 'todeb/base16'
+
+$opts = {}
+
+case
+when [] != ARGV.select{|arg| /^-[h?]|--help$/.match(arg) }
+  STDOUT.puts USAGE
+  exit 0
+else
+  both, lower, upper = %w| --both --lower --upper |.map do |o|
+                                                      ARGV.rindex(o) or -1
+                                                    end
+  lower ||= 0
+  $opts[:case] = case [both, lower, upper].max
+                 when lower then :lower
+                 when both  then :both
+                 when upper then :upper
+                 end
+end
+
+ToDeb::Base16::Decoder.new($opts).call
+
