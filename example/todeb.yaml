@@ -27,8 +27,8 @@ control: |
 ##  Files are archives of various formats, encoded in base 16. The files 
 files:
   striproot:  contents # Removes top level dir 'contents' when unpacking.
-  #tar.lzma:  ./contents.tar.lzma
-  tar.lzma:   5d00008000ffffffffffffffff00319bca19daeda515bbe002ec6bedc0d3b99c
+  #.tar.lzma: ./contents.tar.lzma
+  .tar.lzma:  5d00008000ffffffffffffffff00319bca19daeda515bbe002ec6bedc0d3b99c
               766906d96ad3a033eb7bb2e7d868446cbca45fca80602ad8aa38d045e1da2e3f
               1056bc8b2c9836a0bcd14a9b97c70bdc5118c1de1b33c35a7b801fd445bf2215
               9c73f5ab9a8d30cfafb7cf7006d1fbc5ca754061ea4065b081e60bf7a4fed2df

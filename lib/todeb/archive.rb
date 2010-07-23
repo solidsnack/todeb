@@ -12,7 +12,7 @@ extend self
       ].compact.join(' ')
     end
   end
-  def archive(files_map)
+  def type(files_map)
     TYPES.select do |canonical, variants|
       ([canonical] + variants).any?{|name| files_map.key? name }
     end.first.first
