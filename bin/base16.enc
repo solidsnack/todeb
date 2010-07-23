@@ -53,7 +53,7 @@ else
 end
 
 STDIN.binmode # Might run on Windows, someday.
-ToDeb::Base16.new($opts).encode
+ToDeb::Base16::Encoder.new($opts).call
 
 
 
