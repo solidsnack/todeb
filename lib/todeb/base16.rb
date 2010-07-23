@@ -1,6 +1,9 @@
 
 module ToDeb
-class Base16
+module Base16
+
+class Encoder
+  attr_reader :in, :out, :format, :width, :indent
   def initialize(opts={})
     @in = (opts[:in] or STDIN)
     @out = (opts[:out] or STDOUT)
@@ -15,7 +18,7 @@ class Base16
               else              '  '
               end
   end
-  def encode
+  def call
     buffer = ""
     @in.each_byte do |b|
       buffer << sprintf(@format, b)
@@ -23,13 +26,55 @@ class Base16
     end
     flush_one_line(buffer)
   end
-  def decode
-  end
 private
   def flush_one_line(buffer)
     @out.puts(@indent + buffer[0...@width])
     buffer[@width..-1]
   end
+end
+
+class Decoder
+  attr_reader :in, :out, :lower, :upper
+  def initialize(opts={})
+    @in = (opts[:in] or STDIN)
+    @out = (opts[:out] or STDOUT)
+    case opts[:case]
+    when :upper then @lower, @upper = [false, true]
+    when :any   then @lower, @upper = [true, true]
+    when :lower then @lower, @upper = [true, false]
+    else             @lower, @upper = [true, false]
+    end
+  end
+  def call
+    pair = []
+    @in.each_byte do |b|
+      case
+      val = when "0123456789".index(b)
+              "0123456789".index(b)
+            when "abcdef".index(b)
+              raise CaseError unless @lower
+              9 + "abcdef".index(b)
+            when "ABCDEF".index(b)
+              raise CaseError unless @upper
+              9 + "ABCDEF".index(b)
+            when " \t\n".index(b)
+              nil
+            else
+              raise InvalidChar
+            end
+      pair << val if val
+      write_pair(pair) if 2 == pair.length
+    end
+    raise ContentTooShort unless 0 == pair.length or 2 == pair.length
+    write_pair(pair)
+  end
+private
+  def write_pair(pair)
+    @out.putc((pair[0] * 16) + pair[1])
+    pair.clear
+  end
+end
+
 end
 end
 
