@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
 USAGE = <<USAGE
- USAGE: base16.dec <options>* < the-file.base16 > the-file
+ USAGE: base16.dec <options>* < the-file.0x > the-file
 
   Converts STDIN from base16.
 
