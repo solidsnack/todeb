@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
+def usage
+usage = <<USAGE
+ USAGE: todeb <options>* <action>? < todeb.yaml
+
+  Reads the ToDeb file to on standard input to take some steps in the
+  production of Debian packages. The available actions are:
+
+  If the action is not given on the command line or as part of the YAML input,
+  the default action is `#{DEFAULT_ACTION}'. Actions given on the command line
+  override actions given in files.
+
+  The YAML input file allows one to specify a plug in just a few parameters in
+  order to get Debian package. An example input is included with the source
+  distribution. Some fields and some information about them:
+
+    action:
+      Action to perform; normally left out of the file but useful for cases
+      where everything needs to specified over standard input. A simple way to
+      use it is:
+
+       :; cat - some-todeb-package.yaml | todeb
+        action: #{DEFAULT_ACTION}
+        ^D
+
+      Remember to send a newline before sending EOF!
+
+    name:
+      Debian-style name of package.
+
+    version:
+      Debian-style version of package.
+
+    filesystem:
+      A two-field value describing a filesystem archive to install.
+
+      root:
+        Optionally, one may give a glob specifying the package's nominal root
+        directory. The tool will chdir in to this directory after extracting
+        the archive but before creating the Debian source directory.
+
+      .tar:
+      .tar.bz:
+      &al.
+        A base 16 encoded archive. The name of the field gives the format of
+        the archive. Please pick one. Supported formats and their names are:
+
+          #{ToDeb::Archive.supported_archives_statement.join("\n          ")}
+
+USAGE
+end
+
+require 'todeb'
+
+$opts = {}
+
+DEFAULT_ACTION = 'source_dir'
+
+case
+when [] != ARGV.select{|arg| /^-[h?]|--help$/.match(arg) }
+  STDOUT.puts usage
+  exit 0
+else
+  abort 'Invalid arguments.' unless [[],[DEFAULT_ACTION]].any?{|x| x == ARGV }
+  YAML.load_documents(STDIN) do |document|
+    todeb = ToDeb::BasicArchive.new(document)
+    todeb.produce_debian_ready_directory
+  end
+end
+
+

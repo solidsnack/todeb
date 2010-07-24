@@ -3,7 +3,7 @@ require 'todeb/archive'
 
 module ToDeb
 
-class DirAndControlFile
+class BasicArchive
   attr_reader :spec, :debian_name
   def initialize(the_yaml)
     @spec = the_yaml
