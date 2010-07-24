@@ -1,19 +1,17 @@
-
-
 name:           todeb-example
 version:        0.0.0
 maintainer:     Ops Team <ops@heroku.com>
+license:        MIT // 2010 Heroku
 
-##  Some fields are obviously specifications of files or filesystem
-##  heirarchies. For example the `control' and `files' fields. For these
-##  fields, it's important to support paths soon. Paths would be strings
-##  beginning with `./' or `/'.
+##  Some fields are specifications of files or filesystem heirarchies. For
+##  example the `control' and `files' fields. For these fields, it's important
+##  to support paths soon. Paths would be strings beginning with `./' or `/'.
 
 ##  The control file is given literally, in the Debian control file format.
 ##  The fields will given will take precedence over those created by default.
 ##  To specify dependencies, use a `Depends:' field.
-#control: ./control
-control: |
+#debian/control: ./control
+debian/control: |
   Source: todeb-example
   Section: misc
   Priority: extra
@@ -24,9 +22,8 @@ control: |
   Description: example for todeb
    Installs a few files in to /opt.
 
-##  Files are archives of various formats, encoded in base 16. The files 
-files:
-  striproot:  contents # Removes top level dir 'contents' when unpacking.
+filesystem:
+  root:       contents
   #.tar.lzma: ./contents.tar.lzma
   .tar.lzma:  5d00008000ffffffffffffffff00319bca19daeda515bbe002ec6bedc0d3b99c
               766906d96ad3a033eb7bb2e7d868446cbca45fca80602ad8aa38d045e1da2e3f
