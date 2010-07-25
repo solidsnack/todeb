@@ -55,7 +55,7 @@ require 'todeb'
 
 $opts = {}
 
-DEFAULT_ACTION = 'source_dir'
+DEFAULT_ACTION = 'all'
 
 case
 when [] != ARGV.select{|arg| /^-[h?]|--help$/.match(arg) }
@@ -66,6 +66,7 @@ else
   YAML.load_documents(STDIN) do |document|
     todeb = ToDeb::BasicArchive.new(document)
     todeb.produce_dh_make_ready_directory
+    todeb.run_dh_make
   end
 end
 
