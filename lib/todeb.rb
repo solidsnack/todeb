@@ -3,24 +3,24 @@ require 'todeb/archive'
 
 module ToDeb
 
+WORKING = 'todeb-working-dir'
+
 class BasicArchive
   attr_reader :spec, :debian_name
   def initialize(the_yaml)
     @spec = the_yaml
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
+    @dh_make_name = "#{@spec['name']}-#{@spec['version']}"
   end
   def produce_debian_ready_directory
-    Dir.mkdir @debian_name
-    Dir.chdir @debian_name do
-      Archive.unpack_to_orig_dir(@spec['files'], @debian_name)
+    File.directory? WORKING or Dir.mkdir WORKING
+    Dir.chdir WORKING do
+      Archive.unpack_to_orig_dir(@spec['filesystem'], @dh_make_name)
     end
-  end
-  def archive_name
-    "#{@debian_name}.orig#{archive_type}"
   end
 private
   def archive_type
-    Archive.type(@spec['files'])
+    Archive.type(@spec['filesystem'])
   end
 end
 
