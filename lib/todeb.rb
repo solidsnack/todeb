@@ -12,7 +12,7 @@ class BasicArchive
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
     @dh_make_name = "#{@spec['name']}-#{@spec['version']}"
   end
-  def produce_debian_ready_directory
+  def produce_dh_make_ready_directory
     File.directory? WORKING or Dir.mkdir WORKING
     Dir.chdir WORKING do
       Archive.unpack_to_orig_dir(@spec['filesystem'], @dh_make_name)

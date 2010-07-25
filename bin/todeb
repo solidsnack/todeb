@@ -65,7 +65,7 @@ else
   abort 'Invalid arguments.' unless [[],[DEFAULT_ACTION]].any?{|x| x == ARGV }
   YAML.load_documents(STDIN) do |document|
     todeb = ToDeb::BasicArchive.new(document)
-    todeb.produce_debian_ready_directory
+    todeb.produce_dh_make_ready_directory
   end
 end
 
