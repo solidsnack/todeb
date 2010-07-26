@@ -1,6 +1,6 @@
 name:           todeb-example
 version:        0.0.0
-maintainer:     Ops Team <ops@heroku.com>
+contact:        Ops Team <ops@heroku.com>
 license:        MIT // 2010 Heroku
 
 ##  Some fields are specifications of files or filesystem heirarchies. For
@@ -10,14 +10,10 @@ license:        MIT // 2010 Heroku
 ##  The control file is given literally, in the Debian control file format.
 ##  The fields will given will take precedence over those created by default.
 ##  To specify dependencies, use a `Depends:' field.
-#debian/control: ./control
-debian/control: |
-  Source: todeb-example
+#control: ./control
+control: |
   Section: misc
   Priority: extra
-  Maintainer: Ops Team <ops@heroku.com>
-
-  Package: todeb-example
   Architecture: all
   Description: example for todeb
    Installs a few files in to /opt.

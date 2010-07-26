@@ -7,28 +7,28 @@ WORKING = 'todeb-working-dir'
 MAINTAINER_REGEX = /^ *([^<]+) +<([^<>@]+@[^<>@]+)> *$/
 
 class BasicArchive
-  attr_reader :spec, :debian_name, :dh_make_name
+  attr_reader :spec, :debian_name
   def initialize(the_yaml)
     @spec = the_yaml
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
-    @dh_make_name = "#{@spec['name']}-#{@spec['version']}"
   end
-  def produce_dh_make_ready_directory
+  def produce_deb_binary_directory
     File.directory? WORKING or Dir.mkdir WORKING
     Dir.chdir WORKING do
-      Archive.unpack_to_orig_dir(@spec['filesystem'], @dh_make_name)
+      Archive.unpack(@spec['filesystem'], @debian_name)
     end
   end
-  def run_dh_make
-    begin
-      cmd = %w| dh_make --createorig --indep |
-      STDERR.puts "Running `dh_make'."
-      Dir.chdir("#{WORKING}/#{@dh_make_name}") do
-        env_set
-        system *cmd
-      end
-    ensure
-      env_unset
+  def create_DEBIAN_directory
+    Dir.mkdir "#{WORKING}/#{@debian_name}/DEBIAN"
+  end
+  def write_control_file
+  end
+  def write_rules_file
+  end
+  def run_deb
+    STDERR.puts "Running `dpkg-deb'."
+    Dir.chdir("#{WORKING}/#{@dh_make_name}") do
+      system *(%w| dpkg-deb --build | + [@debian_name])
     end
   end
 private
@@ -45,7 +45,7 @@ private
       ENV['DEBFULLNAME'] = m[1]
       ENV['DEBEMAIL'] = m[2]
     end
-    ENV['PWD'] = Dir.pwd
+    ENV['PWD'] = Dir.pwd     ## We set the PWD because `dh_make' uses it.
   end
   def env_unset
     @originals.each do |var, val|

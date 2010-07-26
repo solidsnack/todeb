@@ -42,33 +42,30 @@ extend self
       variants.any?{|name| files_map.key? name }
     end.first.first
   end
-  def unpack_to_orig_dir(files_map, name)
+  def unpack(files_map, name)
     # Doin' it right here, in the present directory!
     type = Archive.type(files_map)
-    dh_make = File.expand_path(name)
+    target = File.expand_path(name)
     archive = File.expand_path("#{name}#{type}")
-    working = File.expand_path("todeb_#{name}")
-    Dir.mkdir(dh_make)
-    Dir.mkdir(working)
+    source = File.expand_path("#{archive}.d")
+    Dir.mkdir(target)
+    Dir.mkdir(source)
     # Decode archive onto filesystem.
     File.open(archive, File::CREAT|File::WRONLY) do |handle|
       content = StringIO.new(files_map[type])
       Base16::Decoder.new(:in => content, :out => handle).call
     end
-    # Unpack archive and move contents in to source directory for mangling by
-    # `dh_make'.
-    STDERR.puts "Creating `dh_make' ready dir under `#{dh_make}'."
-    Dir.chdir working do
+    # Unpack archive and move contents in to target directory.
+    Dir.chdir source do
       system *(EXTRACT[type] + [archive])
       mv = lambda do
         Dir.foreach('.') do |path|
-          system *['mv', path, dh_make] unless %w| . .. |.any?{|p| p == path }
+          system *['mv', path, target] unless %w| . .. |.index(path)
         end
       end
       if files_map['root']
         root = Dir[files_map['root']].first
         Dir.chdir(root, &mv)
-        STDERR.puts "Packing below `#{root}' in package directory."
       else
         mv.call
       end
