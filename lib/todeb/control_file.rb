@@ -18,7 +18,6 @@ class << self
     fields = text.lines.inject([]) do |acc, line|
       case line
       when /^#/                   then  # Do nothing.
-      when /^ +$/                 then  acc << nil
       when /^[^:]+:([ ]+[^ ]*)?$/ then  acc << line
       when /^[ ]+[^ ]+/           then  acc[-1] = acc[-1] + "\n" + line
       else                              raise FormatError
