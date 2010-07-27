@@ -5,14 +5,29 @@
 module ToDeb
 class ControlFile
 
+PREFERRED_ORDER = %w| Package Version
+                      Section Priority
+                      Architecture
+                      Depends Recommends Suggests Enhances Pre-Depends
+                      Provides
+                      Breaks Conflicts Replaces
+                      Installed-Size
+                      Maintainer
+                      Description |
+
+
 class << self
   def generate_from(yaml)
     fields = yaml.map do |k, v|
       case k
-      when 'contact'
-      when 'version'
+      when 'name'    then Field.new("Package: #{v}")
+      when 'contact' then Field.new("Maintainer: #{v}")
+      when 'version' then Field.new("Version: #{v}")
       end
-    end
+    end.compact
+    first = ControlFile.new(fields)
+    first.override_from(parse(yaml['control'])) if yaml['control']
+    first
   end
   def parser(text)
     fields = text.lines.inject([]) do |acc, line|
@@ -39,8 +54,19 @@ def set(name, value)
 end
 
 def get(name)
-  field = @fields.first{|f| f.name == name }
+  field = get_field(name)
   field.value if field
+end
+
+def get_field(name)
+  @fields.first{|f| f.name == name }
+end
+
+def display
+  PREFERRED_ORDER.map do |name|
+    field = get_field(name)
+    field.text if field
+  end.join("\n")
 end
 
 def delete(name)
