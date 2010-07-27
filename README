@@ -1,0 +1,9 @@
+
+  To try it out:
+
+ :; ./bin/todeb < example/todeb.yaml
+ :; sudo dpkg -i todeb-working-dir/todeb-example_0.0.0.deb
+ :; sudo dpkg -r todeb-example
+
+
+
