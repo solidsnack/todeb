@@ -17,7 +17,7 @@ PREFERRED_ORDER = %w| Package Version
 
 
 class << self
-  def generate_from(yaml)
+  def from_yaml(yaml)
     fields = yaml.map do |k, v|
       case k
       when 'name'    then Field.new("Package: #{v}")
@@ -29,13 +29,13 @@ class << self
     first.override_from(parse(yaml['control'])) if yaml['control']
     first
   end
-  def parser(text)
+  def parse(text)
     fields = text.lines.inject([]) do |acc, line|
       case line
       when /^#/                   then  # Do nothing.
-      when /^[^:]+:([ ]+[^ ]*)?$/ then  acc << line
-      when /^[ ]+[^ ]+/           then  acc[-1] = acc[-1] + "\n" + line
-      else                              raise FormatError
+      when /^[^:]+:([ ]+[^ ].*)?$/ then acc << line
+      when /^[ ]+[^ ]+/           then  acc[-1] = acc[-1] + line
+      else                              raise FormatError, line
       end
       acc
     end.compact.map{|x| Field.new(x) }
@@ -59,14 +59,16 @@ def get(name)
 end
 
 def get_field(name)
-  @fields.first{|f| f.name == name }
+  @fields.select{|f| f.name == name }.first
 end
 
 def display
   PREFERRED_ORDER.map do |name|
+    STDERR.puts "||#{name}"
     field = get_field(name)
+    STDERR.puts "  #{field.text}||" if field
     field.text if field
-  end.join("\n")
+  end.compact.join("\n")
 end
 
 def delete(name)
@@ -89,7 +91,7 @@ end
 class Field
   attr_reader :text
   def initialize(text)
-    @text = text
+    @text = text.strip
   end
   def name
     split[0]

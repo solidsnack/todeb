@@ -64,10 +64,11 @@ when [] != ARGV.select{|arg| /^-[h?]|--help$/.match(arg) }
 else
   abort 'Invalid arguments.' unless [[],[DEFAULT_ACTION]].any?{|x| x == ARGV }
   YAML.load_documents(STDIN) do |document|
-    todeb = ToDeb::BasicArchive.new(document)
-    todeb.produce_dh_make_ready_directory
-    todeb.run_dh_make
+    todeb = ToDeb::BasicFS.new(document)
+    todeb.produce_deb_binary_directory
+    todeb.create_DEBIAN_directory
+    todeb.write_control_file
+    todeb.run_deb
   end
 end
-
 

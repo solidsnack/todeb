@@ -1,16 +1,18 @@
 
 require 'todeb/archive'
+require 'todeb/control_file'
 
 module ToDeb
 
 WORKING = 'todeb-working-dir'
 MAINTAINER_REGEX = /^ *([^<]+) +<([^<>@]+@[^<>@]+)> *$/
 
-class BasicArchive
+class BasicFS
   attr_reader :spec, :debian_name
   def initialize(the_yaml)
     @spec = the_yaml
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
+    @DEBIAN = "#{WORKING}/#{@debian_name}/DEBIAN"
   end
   def produce_deb_binary_directory
     File.directory? WORKING or Dir.mkdir WORKING
@@ -19,15 +21,18 @@ class BasicArchive
     end
   end
   def create_DEBIAN_directory
-    Dir.mkdir "#{WORKING}/#{@debian_name}/DEBIAN"
+    Dir.mkdir @DEBIAN
   end
   def write_control_file
-  end
-  def write_rules_file
+    STDERR.puts "Writing control file."
+    control = ControlFile.from_yaml(@spec)
+    File.open("#{@DEBIAN}/control", File::CREAT|File::WRONLY) do |h|
+      h.puts(control.display)
+    end
   end
   def run_deb
     STDERR.puts "Running `dpkg-deb'."
-    Dir.chdir("#{WORKING}/#{@dh_make_name}") do
+    Dir.chdir(WORKING) do
       system *(%w| dpkg-deb --build | + [@debian_name])
     end
   end
