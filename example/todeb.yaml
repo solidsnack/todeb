@@ -22,15 +22,15 @@ control: |
 filesystem:
   root:       contents
   #.tar.lzma: ./contents.tar.lzma
-  .tar.lzma:  5d00008000ffffffffffffffff00319bca19daeda515bbe002ec6bedc0d3b99c
-              766906d96ad3a033eb7bb2e7d868446cbca45fca80602ad8aa38d045e1da2e3f
-              1056bc8b2c9836a0bcd14a9b97c70bdc5118c1de1b33c35a7b801fd445bf2215
-              9c73f5ab9a8d30cfafb7cf7006d1fbc5ca754061ea4065b081e60bf7a4fed2df
-              c2b5504d250eabfbb11b0c6dd320c4d1181b1d8e2d1c2494b76fd3fe083167ca
-              6d4ac004632205ae35fde4ff810ebbaf7203c59f0c684d4cd54c5f9e86502158
-              deb7fb8fc30ec73de327f9a0fe0c57825361ccdf2d8bd1794736c5fe18cffe
+   .tar.lzma: 5d00008000ffffffffffffffff00319bca19daeda515bbd489c7ee97801894f0
+              f3f7775a21c199a14ceafa3053f6f16b7aed0f8ac031a2999df2aca87db76cf4
+              a56d3402c48e23a5ae94520e86cd42031bce9e63b8c98d01f35b20b88ba051cb
+              f073d99be641f5b872d42bedc7aa2e705c1fa881dc4d2e5ab85b4a894df25abd
+              af694f22e506a5a9f5fe3d82d8ee1bad924a98b25fc318e0ffbe2d63df4ed434
+              a489d55309413f7c905956c343ecd3328fc841a7ff874d0ce4ebc0417bd85bc6
+              caf102901baaedc794f23f6e4222b2ed4cfa11838cdf29687a72d0aba1f9ace6
+              46edca519677659f767c25089e5f476c4473ff9b7ea5fb
   ##  Some day, we should support a `dir' field that automatically packages
   ##  the specified directory.
   #dir:       ./contents
-
 
