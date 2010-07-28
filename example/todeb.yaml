@@ -22,7 +22,8 @@ control: |
 filesystem:
   root:       contents
   #.tar.lzma: ./contents.tar.lzma
-   .tar.lzma: 5d00008000ffffffffffffffff00319bca19daeda515bbd489c7ee97801894f0
+  ##  You can use `xxd -p -c 32 | pr -tFo 14' to get a hex listing like this.
+  .tar.lzma:  5d00008000ffffffffffffffff00319bca19daeda515bbd489c7ee97801894f0
               f3f7775a21c199a14ceafa3053f6f16b7aed0f8ac031a2999df2aca87db76cf4
               a56d3402c48e23a5ae94520e86cd42031bce9e63b8c98d01f35b20b88ba051cb
               f073d99be641f5b872d42bedc7aa2e705c1fa881dc4d2e5ab85b4a894df25abd
