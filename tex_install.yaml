@@ -7,7 +7,8 @@ DEBIAN/control: |
   Section: misc
   Priority: extra
   Architecture: all
-  Depends: texlive, texlive-bibtex-extra, texlive-math-extra, texlive-pictures
+  Depends: texlive, texlive-bibtex-extra,
+           texlive-math-extra, texlive-pictures
   Description: some useful TeX stuff
    Installs a bunch of TeX packages that I use.
 
