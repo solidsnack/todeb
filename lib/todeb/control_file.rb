@@ -22,7 +22,7 @@ class << self
       case k
       when 'name'    then Field.new("Package: #{v}")
       when 'contact' then Field.new("Maintainer: #{v}")
-      when 'version' then Field.new("Version: #{v}")
+      when 'version' then Field.new("Version: #{v}" + (!v.index('-') and '-1'))
       end
     end.compact
     first = ControlFile.new(fields)
@@ -64,9 +64,7 @@ end
 
 def display
   PREFERRED_ORDER.map do |name|
-    STDERR.puts "||#{name}"
     field = get_field(name)
-    STDERR.puts "  #{field.text}||" if field
     field.text if field
   end.compact.join("\n")
 end

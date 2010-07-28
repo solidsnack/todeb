@@ -1,6 +1,9 @@
 
+require 'fileutils'
+
 require 'todeb/archive'
 require 'todeb/control_file'
+require 'todeb/copyright_file'
 
 module ToDeb
 
@@ -12,6 +15,7 @@ class BasicFS
     @spec = the_yaml
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
     @DEBIAN = "#{WORKING}/#{@debian_name}/DEBIAN"
+    @docs = "#{WORKING}/#{@debian_name}/usr/share/doc/#{@spec['name']}"
   end
   def produce_deb_binary_directory
     File.directory? WORKING or Dir.mkdir WORKING
@@ -20,7 +24,10 @@ class BasicFS
     end
   end
   def create_DEBIAN_directory
-    Dir.mkdir @DEBIAN
+    FileUtils.mkdir_p @DEBIAN
+  end
+  def create_doc_directory
+    FileUtils.mkdir_p @docs
   end
   def write_control_file
     STDERR.puts "Writing control file."
@@ -29,10 +36,17 @@ class BasicFS
       h.puts(control.display)
     end
   end
+  def write_copyright_file
+    STDERR.puts "Writing copyright file."
+    copyright = CopyrightFile.from_yaml(@spec)
+    File.open("#{@docs}/copyright", File::CREAT|File::WRONLY) do |h|
+      h.puts(copyright.display)
+    end
+  end
   def run_deb
     STDERR.puts "Running `dpkg-deb'."
     Dir.chdir(WORKING) do
-      system *(%w| dpkg-deb --build | + [@debian_name])
+      system *(%w| fakeroot dpkg-deb --build | + [@debian_name])
     end
   end
 private

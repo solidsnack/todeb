@@ -16,9 +16,9 @@ class << self
     files_basic = case
                   when yaml['license']
                     splitter = /[[:space:]]*\/\/[[:space:]]*/
-                    license, attributions = v.split(splitter)
+                    license, *attributions = yaml['license'].split(splitter)
                     unless license and not attributions.empty?
-                      raise FormatError, v
+                      raise FormatError, yaml['license']
                     end
                     joiner = "\n#{' ' * "Copyright: ".length}"
                     [ Field.new('Files: *'),
@@ -27,7 +27,7 @@ class << self
                   end
     main_basic = [ Field.new("Format-Specification: #{FORMAT}") ]
     # A literal in the YAML can be handled later.
-    CopyrightFile.new(main_basic, [files_basic].compact)
+    CopyrightFile.new(main_basic, *[files_basic].compact)
   end
 end
 
@@ -40,7 +40,7 @@ end
 
 def display
   ([@main_stanza] + @subordinate_stanzas).map do |stanza|
-    stanza.fields.map{|field| field.text }.join("\n")
+    stanza.map{|field| field.text }.join("\n")
   end.join("\n\n")
 end
 

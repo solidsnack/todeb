@@ -68,6 +68,8 @@ else
     todeb.produce_deb_binary_directory
     todeb.create_DEBIAN_directory
     todeb.write_control_file
+    todeb.create_doc_directory
+    todeb.write_copyright_file
     todeb.run_deb
   end
 end
