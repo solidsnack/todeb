@@ -11,8 +11,8 @@ license:        MIT // 2010 Heroku
 ##  The control file is given literally, in the Debian control file format.
 ##  The fields will given will take precedence over those created by default.
 ##  To specify dependencies, use a `Depends:' field.
-#control: ./control
-control: |
+#DEBIAN/control: ./control
+DEBIAN/control: |
   Section: misc
   Priority: extra
   Architecture: all

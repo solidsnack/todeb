@@ -26,7 +26,7 @@ class << self
       end
     end.compact
     first = ControlFile.new(fields)
-    first.override_from(parse(yaml['control'])) if yaml['control']
+    first.override_from(parse(yaml['DEBIAN/control'])) if yaml['DEBIAN/control']
     first
   end
   def parse(text)
