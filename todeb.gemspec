@@ -7,7 +7,6 @@ spec = Gem::Specification.new do |s|
   s.files                    =  Dir['lib/**/*.rb']
   s.require_path             =  'lib'
   s.bindir                   =  'bin'
-# s.executables              =  %w| todeb base16.enc base16.dec |
-  s.executables              =  %w| base16.enc base16.dec |
+  s.executables              =  %w| todeb base16.enc base16.dec |
 end
 

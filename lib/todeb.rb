@@ -14,8 +14,9 @@ class BasicFS
   def initialize(the_yaml)
     @spec = the_yaml
     @debian_name = "#{@spec['name']}_#{@spec['version']}"
-    @DEBIAN = "#{WORKING}/#{@debian_name}/DEBIAN"
-    @docs = "#{WORKING}/#{@debian_name}/usr/share/doc/#{@spec['name']}"
+    @root = "#{WORKING}/#{@debian_name}"
+    @DEBIAN = "#{@root}/DEBIAN"
+    @docs = "#{@root}/usr/share/doc/#{@spec['name']}"
   end
   def produce_deb_binary_directory
     File.directory? WORKING or Dir.mkdir WORKING
@@ -41,6 +42,14 @@ class BasicFS
     copyright = CopyrightFile.from_yaml(@spec)
     File.open("#{@docs}/copyright", File::CREAT|File::WRONLY) do |h|
       h.puts(copyright.display)
+    end
+  end
+  def write_MD5_file
+    Dir.chdir(@root) do
+      cmd = %w[ find . -type f ! -regex 'DEBIAN/.*' -printf '%P\0'
+               | xargs -r0 md5sum
+               > DEBIAN/md5sums ]
+      system(cmd.join(' '))
     end
   end
   def run_deb

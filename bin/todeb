@@ -69,7 +69,8 @@ else
     todeb.create_DEBIAN_directory
     todeb.write_control_file
     todeb.create_doc_directory
-    todeb.write_copyright_file
+    todeb.write_copyright_file if document['license']
+    todeb.write_MD5_file
     todeb.run_deb
   end
 end
