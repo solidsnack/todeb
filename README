@@ -1,9 +1,33 @@
 
-  To try it out:
 
- :; ./bin/todeb < example/todeb.yaml
- :; sudo dpkg -i todeb-working-dir/todeb-example_0.0.0.deb
- :; sudo dpkg -r todeb-example
 
+
+                                                    Installing/removing files.
+   ----------------------------------------------------------------------------
+
+    In the `example' dir is a todeb.yaml that specifies installing all the
+    files under the `contents' directory.
+
+   :; ./bin/todeb < example/todeb.yaml
+   :; sudo dpkg -i todeb-working-dir/todeb-example_0.0.0.deb
+   :; sudo dpkg -r todeb-example
+
+    You have installed an removed a simple collection of files.
+
+
+
+
+                      Installing/removing a simple collection of dependencies.
+   ----------------------------------------------------------------------------
+
+    The file `tex_install.yaml' specifies a few TeX packages I regularly use.
+
+   :; todeb < tex_install.yaml
+   :; sudo gdebi todeb-working-dir/my-tex-stuff_0.0.0.deb
+   :; sudo aptitude remove my-tex-stuff
+
+    Depending on what TeX packages you already have installed, maybe nothing
+    happened. Any TeX packages installed as dependencies of `my-tex-stuff' are
+    removed when `my-tex-stuff' is removed; the other packages are left alone.
 
 

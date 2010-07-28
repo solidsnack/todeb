@@ -65,7 +65,7 @@ else
   abort 'Invalid arguments.' unless [[],[DEFAULT_ACTION]].any?{|x| x == ARGV }
   YAML.load_documents(STDIN) do |document|
     todeb = ToDeb::BasicFS.new(document)
-    todeb.produce_deb_binary_directory
+    todeb.produce_deb_binary_directory if document['filesystem']
     todeb.create_DEBIAN_directory
     todeb.write_control_file
     todeb.create_doc_directory

@@ -1,0 +1,13 @@
+name:           my-tex-stuff
+version:        0.0.0
+contact:        Jason Dusek <jason.dusek@gmail.com>
+license:        MIT // 2010 Jason Dusek
+#DEBIAN/control: ./control
+DEBIAN/control: |
+  Section: misc
+  Priority: extra
+  Architecture: all
+  Depends: texlive, texlive-bibtex-extra, texlive-math-extra, texlive-pictures
+  Description: some useful TeX stuff
+   Installs a bunch of TeX packages that I use.
+
