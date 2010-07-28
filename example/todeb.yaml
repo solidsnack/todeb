@@ -17,7 +17,7 @@ DEBIAN/control: |
   Priority: extra
   Architecture: all
   Description: example for todeb
-   Installs a few files in to /opt.
+   Installs a few files in to /usr/share.
 
 filesystem:
   root:       contents
