@@ -2,23 +2,8 @@ name:           todeb-example
 version:        0.0.0
 contact:        Ops Team <ops@heroku.com>
 license:        MIT // 2010 Heroku
-                    // 2009 Heroku
-
-##  Some fields are specifications of files or filesystem heirarchies. For
-##  example the `control' and `files' fields. For these fields, it's important
-##  to support paths soon. Paths would be strings beginning with `./' or `/'.
-
-##  The control file is given literally, in the Debian control file format.
-##  The fields will given will take precedence over those created by default.
-##  To specify dependencies, use a `Depends:' field.
-#DEBIAN/control: ./control
-DEBIAN/control: |
-  Section: misc
-  Priority: extra
-  Architecture: all
-  Description: example for todeb
-   Installs a few files in to /usr/share.
-
+description:    Installs a few files in /usr/share, in violation of the Debian
+                policy. Otherwise, it is a conformant package.
 filesystem:
   root:       contents
   #.tar.lzma: ./contents.tar.lzma
