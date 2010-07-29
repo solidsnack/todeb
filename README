@@ -5,14 +5,14 @@
                                                     Installing/removing files.
    ----------------------------------------------------------------------------
 
-    In the `example' dir is a todeb.yaml that specifies installing all the
+    In the `examples' dir is a `todeb.yaml' that specifies installing all the
     files under the `contents' directory.
 
    :; todeb < examples/simple-directory-example/todeb.yaml
    :; sudo dpkg -i todeb-working-dir/todeb-example_0.0.0.deb
    :; sudo dpkg -r todeb-example
 
-    You have installed an removed a simple collection of files.
+    You have installed and removed a simple collection of files.
 
 
 
