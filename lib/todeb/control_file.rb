@@ -26,11 +26,11 @@ class << self
       when 'description'
         # Description is clipped down to a single line and used as the
         # summary line.
-        words = v.split(/[.,;:]$|[.,;:][ \n]+|[ \t\n]+|/)
+        words = v.split(/[ \t\n]+/)
         summary = words.inject([]) do |acc, word|
           (acc + [word]).join(' ').length < 50 and acc + [word] or acc
         end.join(' ') + '...'
-        Field.new("Description: #{v}")
+        Field.new("Description: #{summary}")
       end
     end.compact
     defaults = [ 'Section: misc',

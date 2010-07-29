@@ -40,6 +40,7 @@ class BasicFS
   def write_copyright_file
     STDERR.puts "Writing copyright file."
     copyright = CopyrightFile.from_yaml(@spec)
+    STDERR.puts "#{@docs}/copyright"
     File.open("#{@docs}/copyright", File::CREAT|File::WRONLY) do |h|
       h.puts(copyright.display)
     end
@@ -55,7 +56,8 @@ class BasicFS
   def run_deb
     STDERR.puts "Running `dpkg-deb'."
     Dir.chdir(WORKING) do
-      system *(%w| fakeroot dpkg-deb --build | + [@debian_name])
+      stat = system *(%w| fakeroot dpkg-deb --build | + [@debian_name])
+      abort "!!  Running `dpkg' failed." unless stat
     end
   end
 private

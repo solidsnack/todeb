@@ -2,8 +2,8 @@ name:           todeb-example
 version:        0.0.0
 contact:        Ops Team <ops@heroku.com>
 license:        MIT // 2010 Heroku
-                    // 2009 Heroku
-
+description:    Installs a few files in /usr/share, in violation of the Debian
+                policy. Otherwise, it is a conformant package.
 filesystem:
   root:       contents
   #.tar.lzma: ./contents.tar.lzma
