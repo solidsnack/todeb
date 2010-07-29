@@ -1,4 +1,6 @@
 
+require 'fileutils'
+
 require 'todeb/base16'
 
 
@@ -48,8 +50,8 @@ extend self
     target = File.expand_path(name)
     archive = File.expand_path("#{name}#{type}")
     source = File.expand_path("#{archive}.d")
-    Dir.mkdir(target)
-    Dir.mkdir(source)
+    FileUtils.mkdir_p(target)
+    FileUtils.mkdir_p(source)
     # Decode archive onto filesystem.
     File.open(archive, File::CREAT|File::WRONLY) do |handle|
       content = StringIO.new(files_map[type])
