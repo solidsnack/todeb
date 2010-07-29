@@ -46,7 +46,7 @@ class BasicFS
   end
   def write_MD5_file
     Dir.chdir(@root) do
-      cmd = %w[ find . -type f ! -regex 'DEBIAN/.*' -printf '%P\0'
+      cmd = %w[ find . -type f ! -regex '\./DEBIAN/.*' -printf '%P\0'
                | xargs -r0 md5sum
                > DEBIAN/md5sums ]
       system(cmd.join(' '))
