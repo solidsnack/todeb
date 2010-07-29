@@ -39,16 +39,17 @@
                        Generating a bunch of packages and using them with Apt.
    ----------------------------------------------------------------------------
 
-    Create a directory with debs in it, `/opt/some/debs'. Scan the debs to
+    Create a directory with debs in it, `/path/to/the/debs'. Scan the debs to
     create an index file and then add a line to your apt system's collection
     of repositories:
 
-   :; cd /opt/some
-   :; dpkg-scanpackages debs /dev/null | gzip > debs/Packages.gz
-   :; echo 'deb file:/opt/some debs/' > /etc/apt/sources.list.d/some.list
+   :; cd /path/to/the/debs
+   :; dpkg-scanpackages . /dev/null | gzip > Packages.gz
+   :; echo 'deb file:/path/to/the/debs /' > /etc/apt/sources.list.d/some.list
 
     Now you can install your packages. Find out more:
 
+      http://odzangba.wordpress.com/2006/10/13/how-to-build-local-apt-repositories/
       http://www.debian.org/doc/manuals/apt-howto/ch-basico.en.html#s-dpkg-scanpackages
 
 
