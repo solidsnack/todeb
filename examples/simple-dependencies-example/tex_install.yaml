@@ -2,13 +2,14 @@ name:           my-tex-stuff
 version:        0.0.0
 contact:        Jason Dusek <jason.dusek@gmail.com>
 license:        MIT // 2010 Jason Dusek
+
+##  The control file is given literally, in the Debian control file format.
+##  The fields will given will take precedence over those created by default.
+##  To specify dependencies, use a `Depends:' field.
 #DEBIAN/control: ./control
 DEBIAN/control: |
-  Section: misc
-  Priority: extra
-  Architecture: all
   Depends: texlive, texlive-bibtex-extra,
            texlive-math-extra, texlive-pictures
-  Description: some useful TeX stuff
+  Description: a basic TeX installation
    Installs a bunch of TeX packages that I use.
 

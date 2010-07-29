@@ -8,7 +8,7 @@
     In the `example' dir is a todeb.yaml that specifies installing all the
     files under the `contents' directory.
 
-   :; ./bin/todeb < example/todeb.yaml
+   :; todeb < examples/simple-directory-example/todeb.yaml
    :; sudo dpkg -i todeb-working-dir/todeb-example_0.0.0.deb
    :; sudo dpkg -r todeb-example
 
@@ -22,9 +22,12 @@
 
     The file `tex_install.yaml' specifies a few TeX packages I regularly use.
 
-   :; todeb < tex_install.yaml
+   :; todeb < examples/simple-dependencies-example/tex_install.yaml
    :; sudo gdebi todeb-working-dir/my-tex-stuff_0.0.0.deb
    :; sudo aptitude remove my-tex-stuff
+
+    Note that you use `gdebi' on installation to ensure dependencies are
+    resolved.
 
     Depending on what TeX packages you already have installed, maybe nothing
     happened. Any TeX packages installed as dependencies of `my-tex-stuff' are

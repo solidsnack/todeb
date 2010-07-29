@@ -23,9 +23,20 @@ class << self
       when 'name'    then Field.new("Package: #{v}")
       when 'contact' then Field.new("Maintainer: #{v}")
       when 'version' then Field.new("Version: #{v}" + (!v.index('-') and '-1'))
+      when 'description'
+        # Description is clipped down to a single line and used as the
+        # summary line.
+        words = v.split(/[.,;:]$|[.,;:][ \n]+|[ \t\n]+|/)
+        summary = words.inject([]) do |acc, word|
+          (acc + [word]).join(' ').length < 50 and acc + [word] or acc
+        end.join(' ') + '...'
+        Field.new("Description: #{v}")
       end
     end.compact
-    first = ControlFile.new(fields)
+    defaults = [ 'Section: misc',
+                 'Priority: extra',
+                 'Architecture: all' ].map{|s| Field.new(s) }
+    first = ControlFile.new(fields + defaults)
     first.override_from(parse(yaml['DEBIAN/control'])) if yaml['DEBIAN/control']
     first
   end
