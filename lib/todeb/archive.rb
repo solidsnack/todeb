@@ -16,7 +16,7 @@ module Archive
                             :extract => %w| tar --bzip2 --extract --file |,
                             :description => 'BZip2 compressed Tar archives.' },
            '.tar.gz'   => { :names => %w| .tgz |,
-                            :extract => %w| tar --lzma --extract --file |,
+                            :extract => %w| tar --gzip --extract --file |,
                             :description => 'GZip compressed Tar archives.' } }
   NAMES = INFO.inject({}) do |acc, pair|
     canonical, stuff = pair
