@@ -1,0 +1,7 @@
+
+  There are at least two ways one might want to combine ToDeb files:
+  aggregation and overriding. Overriding allows you to create a template with
+  an author, a license and so forth. Aggregation allows you to make a big
+  ToDeb file out of several ToDeb files.
+
+
