@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s|
   s.name                     =  'todeb'
-  s.version                  =  '0.0.0'
+  s.version                  =  '0.0.1'
   s.summary                  =  'Automates Debian package production.'
   s.description              =  'Automates Debian package production.'
 # s.add_dependency(                                                           )
