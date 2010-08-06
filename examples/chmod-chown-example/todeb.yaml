@@ -1,0 +1,38 @@
+name:           todeb-perms-example
+version:        0.0.0
+contact:        Ops Team <ops@heroku.com>
+license:        MIT // 2010 Heroku
+description:    Installs a few files for a web host as well as the Apache
+                server.
+DEBIAN/control: |
+  Depends: apache2
+filesystem:
+  # Within a filesystem declaration, attribute declarations result in a change
+  # that applies only to the files in the filesystem to be installed.
+  # One can apply rules based on file type. Per the `find' man page:
+  #    -type c
+  #           ...
+  #           b      block (buffered) special
+  #           c      character (unbuffered) special
+  #           d      directory
+  #           p      named pipe (FIFO)
+  #           f      regular file
+  #           l      symbolic link...
+  #           s      socket
+  attributes:
+    '/srv/www/*':
+      user/group:   www-data/www-data
+      types/flp:
+        mode:         r--r-----
+      types/d:
+        mode:         r-xr-xr--
+    '/etc/apache2/sites-{available,enabled}/*':
+      uid/gid:      0/0
+      mode:         rw-rw----
+  #.tar.lzma: ./contents.tar.lzma
+  ##  You can use `xxd -p -c 32 | pr -tFo 14' to get a hex listing like this.
+  .tar.lzma:
+  ##  Some day, we should support a `dir' field that automatically packages
+  ##  the specified directory.
+  #dir:       ./contents
+
