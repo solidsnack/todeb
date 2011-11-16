@@ -51,6 +51,8 @@ usage = <<USAGE
 USAGE
 end
 
+require 'yaml'
+
 require 'todeb'
 
 $opts = {}
